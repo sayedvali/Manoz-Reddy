@@ -1,0 +1,84 @@
+#include<stdio.h>
+int v;
+struct process
+{
+int processno;
+int arrival_time,burst_time,completiontime,wait_time,turnaround_time,p;
+int flag;
+ }process_list[60];
+ void Sorting()
+ {
+struct process pr;
+int i, j;
+for(i=0;i<v-1;i++)
+{
+for(j=i+1;j<v;j++)
+{
+if(process_list[i].arrival_time > process_list[j].arrival_time)
+{
+pr=process_list[i];
+process_list[i] = process_list[j];\
+process_list[j] = pr;
+}
+}
+}
+ }
+ int main()
+ {
+ int i,time=0,burst_time=0,peak;
+int s[9];
+float wait_time = 0, taround_time = 0, average_waiting_time=0, average_turnaround_time=0;
+printf("enter the required number of process you want: ");
+scanf("%d",&v);
+for(i = 0; i < v; i++)
+{
+process_list[i].processno = i+1;
+printf("\nEnter the required values of the process pr%d process:-\n", process_list[i].processno);
+printf("Enter arrival time of the process: ");
+scanf("%d", &process_list[i].arrival_time );
+printf("Enter burst time of the process: ");
+scanf("%d", &process_list[i].burst_time);
+process_list[i].flag = 0;
+burst_time = burst_time + process_list[i].burst_time;
+}
+Sorting();
+for(int i=0;i<v;i++)
+{
+s[i]=process_list[i].burst_time;
+}
+process_list[8].burst_time = 9000;
+for(time = process_list[0].arrival_time; time <= burst_time+1;)
+{
+peak = 8;
+for(i=0;i<v;i++)
+{
+if(process_list[i].arrival_time <= time && process_list[i].burst_time < process_list[peak].burst_time && process_list[i].flag != 1)
+{
+peak = i;
+}
+if(process_list[peak].burst_time==0 && process_list[i].flag != 1)
+{
+process_list[i].flag = 1;
+process_list[peak].completiontime=time;process_list[peak].burst_time=9999;
+printf("Pr%d completes in %d\n",process_list[i].processno,process_list[peak].completiontime);
+}
+}
+time++;
+(process_list[peak].burst_time)--;
+}
+for(i=0;i<v;i++)
+{
+process_list[i].turnaround_time=(process_list[i].completiontime)-(process_list[i].arrival_time);
+average_turnaround_time=average_turnaround_time+process_list[i].turnaround_time;
+process_list[i].wait_time=((process_list[i].turnaround_time)-s[i]);
+average_waiting_time=average_waiting_time+process_list[i].wait_time;
+}
+printf("PROCESSNO\tArrivaltime\tCompletiontime\tTurnAroundtime\tWaitingTime\n");
+for(i=0;i<v;i++)
+{
+printf("Pr%d\t%d\t%d\t%d\t%d\n",process_list[i].processno,process_list[i].arrival_time,process_list[i].completiontime,process_list[i].turnaround_time
+,process_list[i].wait_time);
+ }
+printf("Average Turn around Time of the process: %f\t\n\n",average_turnaround_time);
+printf("Average Waiting Time of the process :\t %f\t\n",average_waiting_time);
+}
