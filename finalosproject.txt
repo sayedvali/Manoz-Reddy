@@ -1,5 +1,5 @@
 #include<stdio.h>
-int v;
+
 struct process
 {
 int processno;
